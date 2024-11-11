@@ -1,9 +1,9 @@
 const findSnakeOnGrid = grid => {
     const directions = {
-        '>': [1, 0],
-        '<': [-1, 0],
-        '^': [0, -1],
-        'v': [0, 1]
+        '>': [1, 0],   // Right
+        'v': [0, 1],   // Down
+        '<': [-1, 0],  // Left
+        '^': [0, -1]   // Up
     };
 
     const findHead = () => {
@@ -24,11 +24,18 @@ const findSnakeOnGrid = grid => {
     let visited = new Set();
     visited.add(`${position[0]},${position[1]}`);
 
+    // Define the clockwise and counterclockwise direction orders
+    const clockwiseDirections = [directions['>'], directions['v'], directions['<'], directions['^']];
+    const counterclockwiseDirections = [directions['>'], directions['^'], directions['<'], directions['v']];
+
+    // Choose the direction order (you can toggle this for counterclockwise)
+    const directionsToUse = clockwiseDirections;
+
     while (true) {
         let [x, y] = position;
         let foundNext = false;
 
-        for (let [char, dir] of Object.entries(directions)) {
+        for (let dir of directionsToUse) {
             let [nextX, nextY] = getNextCoord([x, y], dir);
             if (
                 isValidPosition([nextX, nextY]) &&
